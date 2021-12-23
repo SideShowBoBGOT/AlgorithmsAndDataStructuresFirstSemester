@@ -1,5 +1,4 @@
-﻿
-#include <iostream>
+﻿#include <iostream>
 using namespace std;
 int enter_n();
 void show_2d_arr(int**matrix, int n);
@@ -59,12 +58,26 @@ void show_2d_arr(int** matrix, int n) {
 }
 double diag_avg(int** matrix, int const n) {
     int *diag_els = new int[n];
+    int i = 0;
     for (int j = n-1, k=0; j >=0; j--, k++)
     {
-        for (int i = 0; i <n; i++) {
-            if (i == n-j-1) {
-                diag_els[k] = matrix[i][j];
+        if (i == 0) {
+            while (i < n) {
+                if (i == n - j - 1) {
+                    diag_els[k] = matrix[i][j];
+                }
+                i++;
             }
+        }
+        else {
+            i--;
+            while (i >= 0) {
+                if (i == n - j - 1) {
+                    diag_els[k] = matrix[i][j];
+                }
+                i--;
+            }
+            i++;
         }
     }
     double avg = 0;
@@ -76,14 +89,30 @@ double diag_avg(int** matrix, int const n) {
     return avg /= n;
 }
 int** make_null(int** matrix, int const n, double avg) {
+    int i = 0;
     for (int j = 0; j < n; j++)
     {
-        for (int i = 0; i < n; i++) {
-            if (i < j) {
-                if (matrix[i][j] < avg) {
-                    matrix[i][j] = 0;
+        if (i == 0) {
+            while (i < n) {
+                if (i < j) {
+                    if (matrix[i][j] < avg) {
+                        matrix[i][j] = 0;
+                    }
                 }
+                i++;
             }
+        }
+        else {
+            i--;
+            while (i >= 0) {
+                if (i < j) {
+                    if (matrix[i][j] < avg) {
+                        matrix[i][j] = 0;
+                    }
+                }
+                i--;
+            }
+            i++;
         }
     }
     return matrix;
